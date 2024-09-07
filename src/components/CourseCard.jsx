@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
   return (
-    <Link
-    to={`/course/${course.courseid}}`}>
+    <Link to={`/course/${course.courseid}}`}>
       <div className="w-full max-w-sm p-4 rounded-lg shadow-xl border-2 bg-white border-slate-200 hover:scale-105 transition-all">
         <div className="relative">
           <img
