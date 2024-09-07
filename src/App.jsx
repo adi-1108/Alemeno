@@ -1,0 +1,24 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CourseList from "./components/CourseList";
+import CourseDetails from "./components/CourseDetails";
+import StudentDashboard from "./components/StudentDashboard";
+import NavBar from "./components/NavBar";
+
+const App = () => {
+  return (
+    <div className="bg-gradient-to-br from-slate-100 to bg-slate-300">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<CourseList />} />
+            <Route path="course/:id" element={<CourseDetails />} />
+            <Route path="dashboard" element={<StudentDashboard />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;
