@@ -7,7 +7,7 @@ import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
-    <div className="bg-gradient-to-br from-slate-100 to bg-slate-300">
+    <div className="bg-gradient-to-br from-blue-200 to-blue-400">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<NavBar />}>

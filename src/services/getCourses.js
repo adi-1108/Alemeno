@@ -13,3 +13,5 @@ export const searchForCourses = async (searchInput, columnToSearch) => {
 
   return { data, error };
 };
+
+

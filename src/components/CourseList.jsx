@@ -1,29 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { getCourses, searchForCourses } from "../services/getCourses"; // Ensure getCourses function is correctly imported
-import { supabase } from "../supabaseClient";
+import React, { useState, useEffect } from "react";
+import { getCourses } from "../services/getCourses"; // Ensure getCourses function is correctly imported
 import CourseCard from "./CourseCard";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
-  const inputSearch = useRef(null);
-  const [input, setInput] = useState("");
-
-  /* To search for the course using inputSearch */
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const searchInput = input;
-    console.log(searchInput);
-    if (searchInput.length >= 4) {
-      const { data: d1 } = await supabase.from("courses").select("*").or()
-      // 
-      // console.log("COURSENAME DATA", d1);
-      // console.log("instructor name DATA", d2);
-
-
-    }
-  };
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
   const fetchCourses = async () => {
     const { data, error } = await getCourses();
@@ -32,39 +16,60 @@ const CourseList = () => {
       return;
     }
     setCourses(data);
+    setFilteredCourses(data);
   };
 
   useEffect(() => {
-    /* To fetch the course data everytime this component renders */
     fetchCourses();
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault(); // Prevent form submission
+    if (searchTerm.length > 3) {
+      const filtered = courses.filter((course) => {
+        return (
+          course.coursename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.instructorname.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
+      setFilteredCourses(filtered);
+    } else {
+      setFilteredCourses(courses);
+    }
+  };
+
   useEffect(() => {
-    if (input.length < 4) fetchCourses();
-    else handleSearch();
-  }, [input]);
+    if (searchTerm.length <= 3) {
+      setFilteredCourses(courses);
+    }
+  }, [searchTerm, courses]);
 
-  if (error) return <p>Error</p>;
+  if (error) return <p>Error: {error}</p>;
 
-  //
   return (
-    <div>
+    <div className="px-16">
       <form onSubmit={handleSearch}>
         <div className="flex items-center justify-center gap-4">
           <input
             type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search for courses"
             className="my-4 w-full rounded-full border-2 border-slate-400/20 px-8 py-4 font-semibold text-slate-900 shadow-xl focus:outline-none"
           />
-          <MagnifyingGlassCircleIcon className="h-16 w-16 rounded-full text-blue-600 hover:scale-110 hover:shadow-xl hover:ring-2" />
+          <button type="submit">
+            <MagnifyingGlassCircleIcon className="h-16 w-16 rounded-full text-blue-600 hover:scale-110 hover:shadow-xl hover:ring-2" />
+          </button>
         </div>
       </form>
-      <div className="grid grid-cols-3 gap-2">
-        {courses.map((i) => (
-          <CourseCard key={i.courseid} course={i} />
-        ))}
+      <div className="grid grid-cols-3 gap-2 px-16 py-8">
+        {filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
+            <CourseCard key={course.courseid} course={course} />
+          ))
+        ) : (
+          <p>No result found</p>
+        )}
       </div>
     </div>
   );

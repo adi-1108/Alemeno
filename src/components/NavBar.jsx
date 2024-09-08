@@ -7,24 +7,25 @@ const sidebarOptions = [
   {
     id: 1,
     title: "Course List",
-    icon: <RectangleGroupIcon className="h-6 w-6 text-gray-500" />,
-    route: "/"
+    icon: <RectangleGroupIcon className="h-6 w-6 text-slate-900" />,
+    route: "/" || "/course/",
   },
   {
     id: 2,
     title: "Student Dashboard",
-    icon: <UserIcon className="h-6 w-6 text-gray-500" />,
-    route: "/dashboard"
+    icon: <UserIcon className="h-6 w-6 text-slate-900" />,
+    route: "/dashboard",
   },
 ];
 
-
 const NavBar = () => {
   return (
-    <div className="mx-auto h-[calc(100vh)] flex w-[calc(100vw-5%)]  ">
-      <div className="flex flex-[0.35] flex-col items-center gap-10 bg-slate-800/80 m-4 p-4 rounded-3xl">
+    <div className="mx-auto flex h-[calc(100vh)] w-[calc(100vw-100px)]">
+      <div className="flex flex-[0.2] flex-col items-center gap-10 px-4 mr-4 py-10">
         <div className="flex flex-col items-start justify-start gap-5">
-            {sidebarOptions.map((option) => <SidebarOptions item={option} key={option.id} />)}
+          {sidebarOptions.map((option) => (
+            <SidebarOptions item={option} key={option.id} />
+          ))}
         </div>
       </div>
 

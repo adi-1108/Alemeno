@@ -6,24 +6,24 @@ import { Link } from "react-router-dom";
 const CourseCard = ({ course }) => {
   return (
     <Link to={`/course/${course.courseid}}`}>
-      <div className="w-full max-w-sm p-4 rounded-lg  shadow-xl border-2 bg-white border-slate-200 hover:scale-105 transition-all">
+      <div className="w-full max-w-sm rounded-lg border-2 border-slate-200 bg-white p-4 shadow-xl transition-all hover:scale-105">
         <div className="relative">
           <img
             src={course.thumbnail}
             alt={course.courseid}
-            className="w-full h-[200px] object-cover rounded-t-md"
+            className="h-[200px] w-full rounded-t-md object-cover"
             width="350"
             height="200"
             style={{ aspectRatio: "350/200", objectFit: "cover" }}
           />
-          <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md">
+          <div className="absolute right-2 top-2 rounded-full bg-white p-1 shadow-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5 text-gray-700"
+              className="h-5 w-5 text-gray-700"
             >
               <path
                 strokeLinecap="round"
@@ -35,7 +35,7 @@ const CourseCard = ({ course }) => {
         </div>
         <div className="p-4">
           <span
-            className={clsx("inline-block  px-2 py-1 rounded-md mb-2", {
+            className={clsx("mb-2 inline-block rounded-md px-2 py-1", {
               ["bg-red-500/50 text-red-600"]:
                 course.enrollmentstatus === "Closed",
               ["bg-green-500/50 text-green-800"]:
@@ -46,7 +46,7 @@ const CourseCard = ({ course }) => {
           >
             {course.enrollmentstatus}
           </span>
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center space-x-2 text-gray-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ const CourseCard = ({ course }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-4 h-4"
+                className="h-4 w-4"
               >
                 <path
                   strokeLinecap="round"
@@ -71,7 +71,7 @@ const CourseCard = ({ course }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-4 h-4"
+                className="h-4 w-4"
               >
                 <path
                   strokeLinecap="round"
@@ -82,9 +82,9 @@ const CourseCard = ({ course }) => {
               <span>5.0</span>
             </div>
           </div>
-          <h3 className="text-lg font-semibold mb-2">{course.coursename}</h3>
-          <div className="flex items-center  space-x-2">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden">
+          <h3 className="mb-2 text-lg font-semibold">{course.coursename}</h3>
+          <div className="flex items-center space-x-2">
+            <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
               <UserCircleIcon className="h-8 w-8 text-gray-500" />
             </div>
             <span className="text-purple-600">{course.instructorname}</span>

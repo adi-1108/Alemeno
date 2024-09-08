@@ -9,14 +9,14 @@ const SidebarOptions = ({ item }) => {
     <Link
       to={item.route}
       className={cn(
-        "flex cursor-pointer items-center justify-center gap-5 rounded-full px-16 py-4 transition-all hover:scale-110 hover:bg-primary ",
+        "bg-blue-700 w-full flex cursor-pointer shadow-xl items-center justify-start gap-5 rounded-full px-16 py-4 transition-all hover:scale-110",
         {
           "bg-white": isActive,
           "bg-none": !isActive,
-        }
+        },
       )}
     >
-        {item.icon}
+      {item.icon}
       <div>
         <span className="font-semibold">{item.title}</span>
       </div>
