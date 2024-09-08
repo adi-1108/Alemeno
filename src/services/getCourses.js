@@ -5,11 +5,11 @@ export const getCourses = async () => {
   return { data, error };
 };
 
-export const searchForCourses = async (searchInput) => {
+export const searchForCourses = async (searchInput, columnToSearch) => {
   const { data, error } = await supabase
     .from("courses")
     .select()
-    .ilike("coursename", `%${searchInput}%`);
+    .ilike(`${columnToSearch}`, `%${searchInput}%`);
 
   return { data, error };
 };

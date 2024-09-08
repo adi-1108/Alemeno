@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getCourses } from "../services/getCourses"; // Ensure getCourses function is correctly imported
+import { getCourses, searchForCourses } from "../services/getCourses"; // Ensure getCourses function is correctly imported
 import { supabase } from "../supabaseClient";
 import CourseCard from "./CourseCard";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
@@ -16,13 +16,12 @@ const CourseList = () => {
     const searchInput = input;
     console.log(searchInput);
     if (searchInput.length >= 4) {
-      const { data, error } = await supabase
-        .from("courses")
-        .select()
-        .ilike("coursename", `%${searchInput}%`);
+      const { data: d1 } = await supabase.from("courses").select("*").or()
+      // 
+      // console.log("COURSENAME DATA", d1);
+      // console.log("instructor name DATA", d2);
 
-      console.log(data);
-      setCourses(data);
+
     }
   };
 
@@ -35,7 +34,6 @@ const CourseList = () => {
     setCourses(data);
   };
 
-
   useEffect(() => {
     /* To fetch the course data everytime this component renders */
     fetchCourses();
@@ -46,7 +44,6 @@ const CourseList = () => {
     else handleSearch();
   }, [input]);
 
-  
   if (error) return <p>Error</p>;
 
   //
