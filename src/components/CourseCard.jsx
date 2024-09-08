@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const CourseCard = ({ course }) => {
   return (
     <Link to={`/course/${course.courseid}}`}>
-      <div className="w-full max-w-sm p-4 rounded-lg shadow-xl border-2 bg-white border-slate-200 hover:scale-105 transition-all">
+      <div className="w-full max-w-sm p-4 rounded-lg  shadow-xl border-2 bg-white border-slate-200 hover:scale-105 transition-all">
         <div className="relative">
           <img
             src={course.thumbnail}
@@ -83,9 +83,9 @@ const CourseCard = ({ course }) => {
             </div>
           </div>
           <h3 className="text-lg font-semibold mb-2">{course.coursename}</h3>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center  space-x-2">
             <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden">
-              <UserCircleIcon className="h-6 w-6 text-gray-500" />
+              <UserCircleIcon className="h-8 w-8 text-gray-500" />
             </div>
             <span className="text-purple-600">{course.instructorname}</span>
           </div>
