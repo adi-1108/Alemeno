@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCourseDetails } from "../services/getCourseDetails";
 import { supabase } from "../supabaseClient";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
-import CourseCard from "./CourseCard";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const CourseDetails = () => {
   const { id } = useParams();
   const courseId = id.slice(0, -1);
-  const [courseDetails, setcourseDetails] = useState({});
+  const [courseDetails, setCourseDetails] = useState({});
+
   const fetchCourseDetails = async () => {
     const { data, error } = await supabase
       .from("courses")
@@ -16,20 +21,24 @@ const CourseDetails = () => {
       .eq("courseid", courseId)
       .single();
 
-    setcourseDetails(data);
+    setCourseDetails(data);
   };
-  console.log(courseDetails);
+
+  const preRequisites = courseDetails.prerequisites;
+
   useEffect(() => {
     fetchCourseDetails();
   }, []);
 
   return (
-    <div className="flex min-h-[100dvh] flex-col ">
-      <section className="flex flex-col gap-4 bg-gradient-to-r px-6 py-8 rounded-3xl mt-4 from-blue-600 to-slate-200">
+    <div className="flex min-h-[100vh] flex-col overflow-hidden">
+      {" "}
+      {/* Prevent scrolling on the entire page */}
+      <section className="mt-4 flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-blue-600 to-slate-200 px-6 py-8">
         <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl xl:text-6xl/none">
           {courseDetails?.coursename}
         </h1>
-        <p className="max-w-[600px] text-white font-bold md:text-xl">
+        <p className="max-w-[600px] font-bold text-white md:text-xl">
           {courseDetails?.instructorname}
         </p>
         <p className="max-w-[600px] text-slate-200 md:text-xl">
@@ -37,7 +46,7 @@ const CourseDetails = () => {
         </p>
 
         <div className="flex items-center justify-start gap-4">
-          <button className="font-meduim rounded-xl border-2 border-slate-500/40 bg-blue-800 px-4 py-2 text-2xl text-white shadow-xl transition-all hover:scale-110">
+          <button className="rounded-xl border-2 border-slate-500/40 bg-blue-800 px-4 py-2 text-2xl font-medium text-white shadow-xl transition-all hover:scale-110">
             Enroll Now
           </button>
 
@@ -46,8 +55,64 @@ const CourseDetails = () => {
             <p className="font-bold text-white">12,345 Students enrolled</p>
           </div>
         </div>
+      </section>
+      <section className="scrollbar-none mt-4 flex max-h-[calc(100vh-20rem)] flex-col gap-4 overflow-y-auto rounded-3xl bg-gradient-to-r from-slate-200 to-slate-50 px-6 py-8">
+        <div className="sticky top-0 backdrop-blur-lg p-4">
+          <h1 className="s text-lg font-bold text-zinc-900 sm:text-2xl xl:text-5xl/none">
+            Course Details
+          </h1>
+        </div>
 
+        <p className="text-lg">{courseDetails.description}</p>
 
+        <div className="flex items-center justify-start gap-2 text-2xl">
+          <p className="font-bold">Duration : </p>
+          <p>{courseDetails?.duration}</p>
+        </div>
+
+        <div className="flex items-center justify-start gap-2 text-2xl">
+          <p className="font-bold">Schedule : </p>
+          <p>{courseDetails?.schedule}</p>
+        </div>
+
+        <div className="flex items-center justify-start gap-2 text-2xl">
+          <p className="font-bold">Location : </p>
+          <p>{courseDetails?.location}</p>
+        </div>
+
+        <div className="flex items-center justify-start gap-2">
+          <p className="text-2xl font-bold">Prerequisites : </p>
+          {preRequisites?.map((course, _i) => (
+            <div
+              key={_i}
+              className="rounded-lg bg-green-500/80 px-3 py-1 font-bold text-white"
+            >
+              {course}
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-xl bg-gradient-to-r from-blue-200 to-slate-200 px-4 py-8">
+          <div className="w-fit rounded-2xl bg-white px-4 py-2 shadow-2xl transition-all hover:scale-105">
+            <p className="px-8 text-3xl font-bold uppercase">Syllabus</p>
+          </div>
+          <Accordion
+            type="multiple"
+            className="w-full rounded-xl px-4"
+            collapsible
+          >
+            {courseDetails?.syllabus?.map((item, i) => (
+              <AccordionItem key={i} value={i + 1}>
+                <AccordionTrigger className="text-xl font-bold text-zinc-900">
+                  {item.title}
+                </AccordionTrigger>
+                <AccordionContent className="ml-10 text-lg font-semibold text-slate-700">
+                  {item.content}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </section>
     </div>
   );

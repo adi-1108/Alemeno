@@ -81,7 +81,7 @@ export default function NavBar2() {
         </nav>
       </aside>
 
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 overflow-hidden min-h-[calc(100vh-10%)]">
         <Outlet />
       </main>
     </div>
