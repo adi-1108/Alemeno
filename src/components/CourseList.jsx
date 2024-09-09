@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCourses } from "../services/getCourses"; // Ensure getCourses function is correctly imported
 import CourseCard from "./CourseCard";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
-
+import { Input } from "./ui/input";
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
@@ -50,15 +50,15 @@ const CourseList = () => {
     <div className="px-16">
       <form onSubmit={handleSearch}>
         <div className="flex items-center justify-center gap-4">
-          <input
+          <Input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search for courses"
-            className="my-4 w-full rounded-full border-2 border-slate-400/20 px-8 py-4 font-semibold text-slate-900 shadow-xl focus:outline-none"
+            className="my-4 w-full rounded-full border-2 border-slate-400/20 px-8 py-6 text-lg font-semibold text-slate-900 shadow-xl focus:outline-none bg-white"
           />
           <button type="submit">
-            <MagnifyingGlassCircleIcon className="h-16 w-16 rounded-full text-blue-600 hover:scale-110 hover:shadow-xl hover:ring-2" />
+            <MagnifyingGlassCircleIcon className="h-16 w-16 rounded-full text-blue-600 bg-white hover:scale-110 hover:shadow-xl hover:ring-2" />
           </button>
         </div>
       </form>
