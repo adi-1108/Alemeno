@@ -3,6 +3,7 @@ import { getCourses } from "../services/getCourses"; // Ensure getCourses functi
 import CourseCard from "./CourseCard";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
 import { Input } from "./ui/input";
+import Loader from "./Loader";
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
@@ -68,7 +69,7 @@ const CourseList = () => {
             <CourseCard key={course.courseid} course={course} />
           ))
         ) : (
-          <p>No result found</p>
+          <Loader /> 
         )}
       </div>
     </div>

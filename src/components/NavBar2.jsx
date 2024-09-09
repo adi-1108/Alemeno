@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, UserIcon } from "@heroicons/react/24/solid";
 import { RectangleGroupIcon } from "@heroicons/react/24/solid";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
 
 export default function NavBar2() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location)
   return (
     <div className="flex h-screen w-full">
       <aside
-        className={`group flex gap-4 flex-col border-r bg-background transition-all duration-300 ${
+        className={`group flex flex-col gap-4 border-r bg-background transition-all duration-300 ${
           isCollapsed
             ? "w-24 flex-col items-center px-2"
             : "w-64 flex-row items-center px-4 sm:py-5"
@@ -81,7 +84,17 @@ export default function NavBar2() {
         </nav>
       </aside>
 
-      <main className="flex-1 p-6 overflow-hidden min-h-[calc(100vh-10%)]">
+      <main className="min-h-[calc(100vh-10%)] flex-1 overflow-hidden p-6">
+        {location.pathname !== "/" ? (
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute rounded-full bg-white px-4 py-4"
+          >
+            <ChevronLeftIcon className="h-6 w-6" />
+          </button>
+        ) : (
+          <></>
+        )}
         <Outlet />
       </main>
     </div>

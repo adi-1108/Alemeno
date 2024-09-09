@@ -8,13 +8,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Loader from "./Loader";
+import clsx from "clsx";
 
 const CourseDetails = () => {
   const { id } = useParams();
   const courseId = id.slice(0, -1);
   const [courseDetails, setCourseDetails] = useState({});
-
+  const [loading, setLoading] = useState(true); // Loading state
+  
   const fetchCourseDetails = async () => {
+    setLoading(true);
     const { data, error } = await supabase
       .from("courses")
       .select("*")
@@ -22,6 +26,7 @@ const CourseDetails = () => {
       .single();
 
     setCourseDetails(data);
+    setLoading(false);
   };
 
   const preRequisites = courseDetails.prerequisites;
@@ -30,9 +35,12 @@ const CourseDetails = () => {
     fetchCourseDetails();
   }, []);
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="flex min-h-[100vh] flex-col overflow-hidden">
-      {" "}
       {/* Prevent scrolling on the entire page */}
       <section className="mt-4 flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-blue-600 to-slate-200 px-6 py-8">
         <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl xl:text-6xl/none">
@@ -46,7 +54,20 @@ const CourseDetails = () => {
         </p>
 
         <div className="flex items-center justify-start gap-4">
-          <button className="rounded-xl border-2 border-slate-500/40 bg-blue-800 px-4 py-2 text-2xl font-medium text-white shadow-xl transition-all hover:scale-110">
+          <button
+          disabled={courseDetails.enrollmentstatus === "Closed"}
+            className={clsx(
+              "rounded-xl border-2 border-slate-500/40  px-4 py-2 text-2xl font-medium text-white shadow-xl transition-all hover:scale-110",
+              {
+                ["bg-red-500 text-red-600 disabled:opacity-50 hover:scale-100"]:
+                  courseDetails.enrollmentstatus === "Closed",
+                ["bg-green-500 text-green-800"]:
+                  courseDetails.enrollmentstatus === "Open",
+                ["bg-yellow-500 text-yellow-800"]:
+                  courseDetails.enrollmentstatus === "In Progress",
+              },
+            )}
+          >
             Enroll Now
           </button>
 
@@ -57,8 +78,8 @@ const CourseDetails = () => {
         </div>
       </section>
       <section className="scrollbar-none mt-4 flex max-h-[calc(100vh-20rem)] flex-col gap-4 overflow-y-auto rounded-3xl bg-gradient-to-r from-slate-200 to-slate-50 px-6 py-8">
-        <div className="sticky top-0 backdrop-blur-lg p-4">
-          <h1 className="s text-lg font-bold text-zinc-900 sm:text-2xl xl:text-5xl/none">
+        <div className="sticky top-0 p-4 backdrop-blur-lg">
+          <h1 className="text-lg font-bold text-zinc-900 sm:text-2xl xl:text-5xl/none">
             Course Details
           </h1>
         </div>
