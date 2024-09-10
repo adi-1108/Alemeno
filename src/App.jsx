@@ -5,12 +5,16 @@ import CourseDetails from "./components/CourseDetails";
 import StudentDashboard from "./components/StudentDashboard";
 import NavBar from "./components/NavBar";
 import NavBar2 from "./components/NavBar2";
+import LoginPage from "./components/LoginPage";
+import SignUp from "./components/SignUp";
 
 const App = () => {
   return (
     <div className="bg-gradient-to-br from-blue-200 to-blue-400">
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<NavBar2 />}>
             <Route index element={<CourseList />} />
             <Route path="course/:id" element={<CourseDetails />} />
